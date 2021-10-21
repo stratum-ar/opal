@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="opal:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/opal_jar</output-path>
+    <root id="archive" name="opal.jar">
+      <element id="module-output" name="opal" />
+    </root>
+  </artifact>
+</component>
