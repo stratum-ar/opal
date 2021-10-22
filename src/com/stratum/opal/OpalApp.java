@@ -2,6 +2,7 @@ package com.stratum.opal;
 
 import com.stratum.opal.framebuffer.IFramebuffer;
 import com.stratum.opal.framebuffer.RPiFramebuffer;
+import com.stratum.opal.framebuffer.SwingFramebuffer;
 import com.stratum.opal.graphics.Surface;
 
 public class OpalApp {
@@ -18,13 +19,15 @@ public class OpalApp {
 
             if (argv[0].equals("fb1")) {
                 framebuffer = new RPiFramebuffer();
-            } else  {
+            } else if (argv[0].equals("swing")) {
+                framebuffer = new SwingFramebuffer();
+            } else {
                 System.out.println("Invalid mode.");
                 return;
             }
 
-            testDraw(framebuffer);
             System.out.println(43);
+            testDraw(framebuffer);
         } else {
             System.out.println("Usage: opal [mode]");
             System.out.println("Modes:");
