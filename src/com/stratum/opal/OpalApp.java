@@ -1,14 +1,15 @@
 package com.stratum.opal;
 
-import com.stratum.opal.framebuffer.IFramebuffer;
-import com.stratum.opal.framebuffer.RPiFramebuffer;
-import com.stratum.opal.framebuffer.SwingFramebuffer;
-import com.stratum.opal.graphics.Surface;
+import com.stratum.opal.framebuffer.*;
+import com.stratum.opal.graphics.ColorUtil;
+import com.stratum.opal.graphics.basicgraphics.BasicGraphicsSurface;
 
 public class OpalApp {
     public static void testDraw(IFramebuffer framebuffer) {
-        Surface surf = new Surface();
-        surf.clear((short)0x0FF0);
+        BasicGraphicsSurface surf = new BasicGraphicsSurface();
+
+        surf.fillRect(40, 40, 80, 50, ColorUtil.pack(1.f, 1.f, 0.f));
+        surf.fillRect(120, 90, 60, 60, ColorUtil.pack(1.f, 0.f, 1.f));
 
         framebuffer.write(surf);
     }
