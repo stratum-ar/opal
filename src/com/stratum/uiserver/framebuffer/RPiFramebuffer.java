@@ -24,8 +24,8 @@ public class RPiFramebuffer implements IFramebuffer {
                     int offset = y * 240 + x;
                     int pixel = pixels[x][y];
 
-                    fbBytes[2 * offset] = (byte)(pixel >> 8);
-                    fbBytes[2 * offset + 1] = (byte)(pixel & 0xFF);
+                    fbBytes[2 * offset] = (byte) (pixel >> 8);
+                    fbBytes[2 * offset + 1] = (byte) (pixel & 0xFF);
                 }
             }
 
