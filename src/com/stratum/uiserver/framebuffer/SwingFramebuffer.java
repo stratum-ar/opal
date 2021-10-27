@@ -1,6 +1,6 @@
-package com.stratum.opal.framebuffer;
+package com.stratum.uiserver.framebuffer;
 
-import com.stratum.opal.graphics.Surface;
+import com.stratum.uiserver.graphics.Surface;
 
 import javax.swing.*;
 import java.awt.*;

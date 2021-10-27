@@ -1,4 +1,4 @@
-package com.stratum.opal.graphics;
+package com.stratum.uiserver.graphics;
 
 public class ColorUtil {
     public static short pack(float red, float green, float blue) {

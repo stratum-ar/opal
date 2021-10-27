@@ -1,6 +1,6 @@
-package com.stratum.opal.graphics.basicgraphics;
+package com.stratum.uiserver.graphics.basicgraphics;
 
-import com.stratum.opal.graphics.Surface;
+import com.stratum.uiserver.graphics.Surface;
 
 public class BasicGraphicsSurface extends Surface {
     public void fillRect(int x, int y, int width, int height, short color) {

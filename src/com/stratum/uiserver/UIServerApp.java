@@ -1,10 +1,10 @@
-package com.stratum.opal;
+package com.stratum.uiserver;
 
-import com.stratum.opal.framebuffer.*;
-import com.stratum.opal.graphics.ColorUtil;
-import com.stratum.opal.graphics.basicgraphics.BasicGraphicsSurface;
+import com.stratum.uiserver.framebuffer.*;
+import com.stratum.uiserver.graphics.ColorUtil;
+import com.stratum.uiserver.graphics.basicgraphics.BasicGraphicsSurface;
 
-public class OpalApp {
+public class UIServerApp {
     public static void testDraw(IFramebuffer framebuffer) {
         BasicGraphicsSurface surf = new BasicGraphicsSurface();
 

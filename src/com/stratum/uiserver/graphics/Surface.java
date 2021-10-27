@@ -1,4 +1,4 @@
-package com.stratum.opal.graphics;
+package com.stratum.uiserver.graphics;
 
 public class Surface {
     private final short[][] pixels;
