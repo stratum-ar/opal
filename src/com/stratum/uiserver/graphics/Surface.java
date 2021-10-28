@@ -45,4 +45,8 @@ public class Surface {
             }
         }
     }
+
+    public Graphics getGraphics() {
+        return new Graphics(this);
+    }
 }

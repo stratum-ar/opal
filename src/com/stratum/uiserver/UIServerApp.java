@@ -2,14 +2,16 @@ package com.stratum.uiserver;
 
 import com.stratum.uiserver.framebuffer.*;
 import com.stratum.uiserver.graphics.ColorUtil;
-import com.stratum.uiserver.graphics.basicgraphics.BasicGraphicsSurface;
+import com.stratum.uiserver.graphics.Graphics;
+import com.stratum.uiserver.graphics.Surface;
 
 public class UIServerApp {
     public static void testDraw(IFramebuffer framebuffer) {
-        BasicGraphicsSurface surf = new BasicGraphicsSurface();
+        Surface surf = new Surface();
+        Graphics g = surf.getGraphics();
 
-        surf.fillRect(40, 40, 80, 50, ColorUtil.pack(1.f, 1.f, 0.f));
-        surf.fillRect(120, 90, 60, 60, ColorUtil.pack(1.f, 0.f, 1.f));
+        g.fillRect(40, 40, 80, 50, ColorUtil.pack(1.f, 1.f, 0.f));
+        g.fillRect(120, 90, 60, 60, ColorUtil.pack(1.f, 0.f, 1.f));
 
         framebuffer.write(surf);
     }
