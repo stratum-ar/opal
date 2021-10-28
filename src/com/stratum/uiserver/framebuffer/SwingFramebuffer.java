@@ -35,9 +35,9 @@ public class SwingFramebuffer implements IFramebuffer {
         private Surface surface;
 
         private Color colorFromPixel(short pixel) {
-            float r = (float)((pixel >> 3) & 31) / 31.f;
-            float g = (float)(pixel & 7) / 7.f;
-            float b = (float)((pixel >> 8) & 15) / 15.f;
+            float r = (float) ((pixel >> 3) & 31) / 31.f;
+            float g = (float) (pixel & 7) / 7.f;
+            float b = (float) ((pixel >> 8) & 15) / 15.f;
 
             return new Color(r, g, b);
         }
