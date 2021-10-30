@@ -1,5 +1,6 @@
 package com.stratum.uiserver.graphics;
 
+import com.stratum.uiserver.graphics.types.IFill;
 import com.stratum.uiserver.graphics.types.Rect;
 
 import java.util.function.BiFunction;
@@ -73,6 +74,22 @@ public class Graphics {
         }
     }
 
+    public void drawLine(int sx, int sy, int ex, int ey, IFill fill) {
+        int steps = Math.max(Math.abs(sx - ex), Math.abs(sy - ey));
+        float dx = (float)(ex - sx) / steps;
+        float dy = (float)(ey - sy) / steps;
+
+        float fx = sx;
+        float fy = sy;
+
+        for (int i = 0; i < steps; i++) {
+            setPixel((int)fx, (int)fy, fill.sample((int)fx, (int)fy));
+
+            fx += dx;
+            fy += dy;
+        }
+    }
+
     public void drawQuadratic(int sx, int sy, int cx, int cy, int ex, int ey, short color) {
         int[] xs = new int[bezierResolution];
         int[] ys = new int[bezierResolution];
@@ -91,8 +108,30 @@ public class Graphics {
         drawPolygon(xs, ys, color, true);
     }
 
+    public void drawQuadratic(int sx, int sy, int cx, int cy, int ex, int ey, IFill fill) {
+        int[] xs = new int[bezierResolution];
+        int[] ys = new int[bezierResolution];
+
+        for (int i = 0; i < bezierResolution; i++) {
+            float t = (float)i / (bezierResolution - 1);
+
+            xs[i] = (int)MathUtil.lerp(
+                    t, MathUtil.lerp(t, (float)sx, (float)cx), MathUtil.lerp(t, (float)cx, (float)ex)
+            );
+            ys[i] = (int)MathUtil.lerp(
+                    t, MathUtil.lerp(t, (float)sy, (float)cy), MathUtil.lerp(t, (float)cy, (float)ey)
+            );
+        }
+
+        drawPolygon(xs, ys, fill, true);
+    }
+
     public void drawPolygon(int[] xs, int[] ys, short color) {
         drawPolygon(xs, ys, color, false);
+    }
+
+    public void drawPolygon(int[] xs, int[] ys, IFill fill) {
+        drawPolygon(xs, ys, fill, false);
     }
 
     public void drawPolygon(int[] xs, int[] ys, short color, boolean open) {
@@ -108,10 +147,31 @@ public class Graphics {
         }
     }
 
+    public void drawPolygon(int[] xs, int[] ys, IFill fill, boolean open) {
+        if (xs.length < 2 || ys.length < 2) {
+            throw new IllegalArgumentException("Polygon must contain at least 2 points.");
+        }
+        if (xs.length != ys.length) {
+            throw new IllegalArgumentException("There must be the same amount of both coordinates.");
+        }
+
+        for (int i = 0; i < (open ? (xs.length - 1) : xs.length); i++) {
+            drawLine(xs[i], ys[i], xs[(i + 1) % xs.length], ys[(i + 1) % ys.length], fill);
+        }
+    }
+
     public void fillRect(int x, int y, int width, int height, short color) {
         for (int dx = 0; dx < width; dx++) {
             for (int dy = 0; dy < height; dy++) {
                 setPixel(x + dx, y + dy, color);
+            }
+        }
+    }
+
+    public void fillRect(int x, int y, int width, int height, IFill fill) {
+        for (int dx = 0; dx < width; dx++) {
+            for (int dy = 0; dy < height; dy++) {
+                setPixel(x + dx, y + dy, fill.sample(x + dx, y + dy));
             }
         }
     }
@@ -124,6 +184,19 @@ public class Graphics {
 
                 if (cx * cx + cy * cy <= 1) {
                     setPixel(x + dx, y + dy, color);
+                }
+            }
+        }
+    }
+
+    public void fillEllipse(int x, int y, int width, int height, IFill fill) {
+        for (int dx = 0; dx < width; dx++) {
+            for (int dy = 0; dy < height; dy++) {
+                float cx = 2 * (float)dx / (width - 1) - 1;
+                float cy = 2 * (float)dy / (height - 1) - 1;
+
+                if (cx * cx + cy * cy <= 1) {
+                    setPixel(x + dx, y + dy, fill.sample(x + dx, y + dy));
                 }
             }
         }
