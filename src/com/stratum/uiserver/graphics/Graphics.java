@@ -2,10 +2,13 @@ package com.stratum.uiserver.graphics;
 
 import com.stratum.uiserver.graphics.types.Rect;
 
+import java.util.function.BiFunction;
+
 public class Graphics {
     private final Surface surf;
 
     private int bezierResolution = 10;
+    private BiFunction<Short, Short, Short> blendingFunction = (bg, fg) -> fg;
 
     public Graphics(Surface surface) {
         surf = surface;
@@ -17,6 +20,18 @@ public class Graphics {
 
     public void setBezierResolution(int bezierResolution) {
         this.bezierResolution = bezierResolution;
+    }
+
+    public BiFunction<Short, Short, Short> getBlendingFunction() {
+        return blendingFunction;
+    }
+
+    public void setBlendingFunction(BiFunction<Short, Short, Short> blendingFunction) {
+        this.blendingFunction = blendingFunction;
+    }
+
+    private void setPixel(int x, int y, short color) {
+        surf.setPixel(x, y, blendingFunction.apply(surf.getPixel(x, y), color));
     }
 
     public Rect calcBoundingRect(int[] xs, int[] ys) {
@@ -51,7 +66,7 @@ public class Graphics {
         float fy = sy;
 
         for (int i = 0; i < steps; i++) {
-            surf.setPixel((int)fx, (int)fy, color);
+            setPixel((int)fx, (int)fy, color);
 
             fx += dx;
             fy += dy;
@@ -96,7 +111,7 @@ public class Graphics {
     public void fillRect(int x, int y, int width, int height, short color) {
         for (int dx = 0; dx < width; dx++) {
             for (int dy = 0; dy < height; dy++) {
-                surf.setPixel(x + dx, y + dy, color);
+                setPixel(x + dx, y + dy, color);
             }
         }
     }
@@ -108,7 +123,7 @@ public class Graphics {
                 float cy = 2 * (float)dy / (height - 1) - 1;
 
                 if (cx * cx + cy * cy <= 1) {
-                    surf.setPixel(x + dx, y + dy, color);
+                    setPixel(x + dx, y + dy, color);
                 }
             }
         }

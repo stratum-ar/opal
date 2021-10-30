@@ -16,8 +16,11 @@ public class UIServerApp {
         Surface surf = new Surface();
         Graphics g = surf.getGraphics();
 
+        g.setBlendingFunction((bg, fg) -> (short)(bg ^ fg));
+
         g.fillEllipse(40, 40, 80, 50, ColorUtil.pack(1.f, 1.f, 0.f));
-        g.fillRect(160, 90, 40, 60, ColorUtil.pack(0.f, 0.f, 1.f));
+        g.fillRect(60, 50, 120, 100, ColorUtil.pack(0.f, 0.f, 1.f));
+        g.fillRect(80, 70, 120, 100, ColorUtil.pack(0.f, 0.f, 1.f));
         g.drawLine(100, 20, 200, 50, ColorUtil.pack(1.f, 1.f, 1.f));
 
         g.drawPolygon(new int[]{100, 200, 60}, new int[]{100, 200, 200}, ColorUtil.pack(1.f, 0.f, 0.f));
