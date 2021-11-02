@@ -29,7 +29,7 @@ public class RequestReader {
     }
 
     public List<Byte> getCommand() {
-        return requestList.subList(3, 3 + 6);
+        return requestList.subList(3, 3 + 8);
     }
 
     public Surface readCommand(List<Byte> command) {
@@ -41,7 +41,7 @@ public class RequestReader {
                         command.get(2),
                         command.get(3),
                         command.get(4),
-                        ColorUtil.pack(1f, 1f, 1f));
+                        ColorUtil.pack((float)command.get(5), (float)command.get(6), (float)command.get(7)));
         }
         return surface;
     }

@@ -52,7 +52,7 @@ public class UIServerApp {
 
     }
 
-    //example: echo -e '\x2\x0\x0f\x12\x20\x40\x40\x40\x0F\xFF' | nc localhost 50666
+    //example: echo -e '\x2\x0\x0f\x12\x20\x40\x40\x40\x40\x40\x40' | nc localhost 50666
     public static void start(int port, IFramebuffer framebuffer) throws IOException {
         ServerSocket serverSocket = new ServerSocket(port);
         while (true) {
