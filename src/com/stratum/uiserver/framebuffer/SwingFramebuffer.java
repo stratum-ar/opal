@@ -32,7 +32,7 @@ public class SwingFramebuffer implements IFramebuffer {
     }
 
     private class FramebufferPanel extends JPanel {
-        private Surface surface;
+        private Surface surface = new Surface();
 
         private Color colorFromPixel(short pixel) {
             float r = (float) ((pixel >> 3) & 31) / 31.f;
