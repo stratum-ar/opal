@@ -1,47 +1,62 @@
 package com.stratum.uiserver.connection;
 
-import com.google.common.primitives.Bytes;
 import com.stratum.uiserver.graphics.ColorUtil;
 import com.stratum.uiserver.graphics.Graphics;
 import com.stratum.uiserver.graphics.Surface;
 
-import java.util.List;
+import java.io.DataInputStream;
+import java.io.IOException;
 
 public class RequestReader {
 
-    private final List<Byte> requestList;
+    private final DataInputStream in;
     private final Surface surface = new Surface();
 
-    public RequestReader(byte[] request) {
-        requestList = Bytes.asList(request);
+    public RequestReader(DataInputStream in) {
+        this.in = in;
     }
 
     public Surface readRequest() {
-        return readCommand(getCommand());
+        try {
+            int commandsNum = getNumberOfCommands();
+            int commandSectionLength = getCommandSectionLength();
+
+            for (int i = 0; i < commandsNum; i++) {
+                getCommand();
+            }
+
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Wrong input stream");
+        }
+        return surface;
     }
 
-    public int getNumberOfCommands() {
-        return requestList.get(0);
+    public int getNumberOfCommands() throws IOException {
+        return in.readByte();
     }
 
-    public int getCommandSectionLength() {
-        return ((requestList.get(1) & 0xff) << 8) | (requestList.get(2) & 0xff);
+    public int getCommandSectionLength() throws IOException {
+        return (((in.readByte() & 0xff) << 8) | in.readByte() & 0xff);
     }
 
-    public List<Byte> getCommand() {
-        return requestList.subList(3, 3 + 8);
+    public void getCommand() throws IOException {
+        int command = in.readByte();
+        switch (command) {
+            case 18:
+                readCommand(command, in.readNBytes(8));
+        }
     }
 
-    public Surface readCommand(List<Byte> command) {
+    public Surface readCommand(int command, byte[] parameters) {
         Graphics g = surface.getGraphics();
-        switch (command.get(0)) {
+        switch (command) {
             case 18:
                 g.fillRect(
-                        command.get(1),
-                        command.get(2),
-                        command.get(3),
-                        command.get(4),
-                        ColorUtil.pack((float)command.get(5), (float)command.get(6), (float)command.get(7)));
+                        parameters[0],
+                        parameters[1],
+                        parameters[2],
+                        parameters[3],
+                        ColorUtil.pack(parameters[4], parameters[5], parameters[6]));
         }
         return surface;
     }

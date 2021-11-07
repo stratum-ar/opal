@@ -52,7 +52,8 @@ public class UIServerApp {
 
     }
 
-    //example: echo -e '\x2\x0\x0f\x12\x20\x40\x40\x40\x40\x40\x40' | nc localhost 50666
+    //example: echo -e '\x2\x0\x0f\x12\x20\x40\x40\x40\x40\x40\x40\x02' | nc localhost 50666 {one rectangle}
+    //example: echo -e '\x2\x0\x0f\x12\x20\x40\x40\x40\x40\x40\x40\x01\x12\x50\x60\x40\x30\x02\x40\x40\x02' | nc localhost 50666 {two rectangles}
     public static void start(int port, IFramebuffer framebuffer) throws IOException {
         ServerSocket serverSocket = new ServerSocket(port);
         while (true) {
@@ -62,12 +63,10 @@ public class UIServerApp {
                 DataInputStream in = new DataInputStream(clientSocket.getInputStream());
                 DataOutputStream out = new DataOutputStream((clientSocket.getOutputStream()));
 
-                byte[] request = in.readAllBytes();
-                Surface surface = new RequestReader(request).readRequest();
+                Surface surface = new RequestReader(in).readRequest();
 
                 testDraw(framebuffer, surface);
 
-                System.out.println(Arrays.toString(request));
                 out.write("dostalem".getBytes(StandardCharsets.UTF_8));
                 clientSocket.close();
             } catch (IOException e) {
