@@ -1,11 +1,14 @@
 package com.stratum.uiserver.connection;
 
-import com.stratum.uiserver.graphics.ColorUtil;
+import com.stratum.uiserver.annotation.RequestMethod;
 import com.stratum.uiserver.graphics.Graphics;
 import com.stratum.uiserver.graphics.Surface;
+import com.stratum.uiserver.graphics.types.Color;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
 
 public class RequestReader {
 
@@ -22,7 +25,15 @@ public class RequestReader {
             int commandSectionLength = getCommandSectionLength();
 
             for (int i = 0; i < commandsNum; i++) {
-                getCommand();
+                readCommand();
+
+                int divider = in.readUnsignedByte();
+
+                if (divider == 2)
+                    break;
+                else if (divider == 1)
+                    continue;
+                else throw new IOException();
             }
 
         } catch (IOException e) {
@@ -32,22 +43,30 @@ public class RequestReader {
     }
 
     public int getNumberOfCommands() throws IOException {
-        return in.readByte();
+        return in.readUnsignedByte();
     }
 
     public int getCommandSectionLength() throws IOException {
-        return (((in.readByte() & 0xff) << 8) | in.readByte() & 0xff);
+        return (((in.readUnsignedByte() & 0xff) << 8) | in.readUnsignedByte() & 0xff);
     }
 
     public void getCommand() throws IOException {
-        int command = in.readByte();
+        int command = in.readUnsignedByte();
         switch (command) {
             case 18:
                 readCommand(command, in.readNBytes(8));
         }
     }
 
-    public Surface readCommand(int command, byte[] parameters) {
+    public void readCommand() throws IOException {
+        Graphics g = surface.getGraphics();
+        int commandNo = in.readUnsignedByte();
+
+        runCommand(commandNo, g, in);
+
+    }
+
+    public void readCommand(int command, byte[] parameters) {
         Graphics g = surface.getGraphics();
         switch (command) {
             case 18:
@@ -56,9 +75,26 @@ public class RequestReader {
                         parameters[1],
                         parameters[2],
                         parameters[3],
-                        ColorUtil.pack(parameters[4], parameters[5], parameters[6]));
+                        new Color((float) (parameters[4]/255.0), (float) (parameters[5]/255.0), (float) (parameters[6]/255.0)));
         }
-        return surface;
+    }
+
+    public void runCommand(int commandNo, Graphics g, DataInputStream in) {
+        Method[] methods = Graphics.class.getMethods();
+        try {
+            for (Method method : methods) {
+
+                if (((AnnotatedElement) method).isAnnotationPresent(RequestMethod.class)) {
+                    RequestMethod requestMethod = ((AnnotatedElement) method).getAnnotation(RequestMethod.class);
+
+                    if (commandNo == requestMethod.commandNo()) {
+                        method.invoke(g, in);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
