@@ -10,7 +10,6 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 public class UIServerApp {
     public static void testDraw(IFramebuffer framebuffer, Surface surf) {
@@ -52,10 +51,10 @@ public class UIServerApp {
 
     }
 
-    //example: echo -e '\x1\x0\x0f\x12\x20\x40\x40\x40\x40\x40\x40\x02' | nc localhost 50666 {one rectangle}
-    //example: echo -e '\x2\x0\x0f\x12\x20\x40\x40\x40\x40\x40\x40\x01\x12\x50\x60\x40\x30\x02\x40\x40\x02' | nc localhost 50666 {two rectangles}
-    //example: echo -e '\x3\x0\x0f\x12\x20\x40\x40\x40\x40\x40\x40\x01\x12\x50\x60\x40\x30\x02\x40\x40\x01\x11\x80\x90\x40\x30\x80\x40\x40\x02' | nc localhost 50666 {two rectangles and ellipse}
-    //example: echo -e '\x1\x0\x0f\x17\x5\x78\x32\x3c\x64\x46\xc8\xaa\xc8\xb4\x64\x80\x40\x40\x02' | nc localhost 50666
+    //example: echo -e '\x1\x12\x20\x40\x40\x40\x40\x40\x40\x02' | nc localhost 50666 {one rectangle}
+    //example: echo -e '\x2\x12\x20\x40\x40\x40\x40\x40\x40\x01\x12\x50\x60\x40\x30\x02\x40\x40\x02' | nc localhost 50666 {two rectangles}
+    //example: echo -e '\x3\x12\x20\x40\x40\x40\x40\x40\x40\x01\x12\x50\x60\x40\x30\x02\x40\x40\x01\x11\x80\x90\x40\x30\x80\x40\x40\x02' | nc localhost 50666 {two rectangles and ellipse}
+    //example: echo -e '\x1\x17\x5\x78\x32\x3c\x64\x46\xc8\xaa\xc8\xb4\x64\x80\x40\x40\x02' | nc localhost 50666
     public static void start(int port, IFramebuffer framebuffer) throws IOException {
         ServerSocket serverSocket = new ServerSocket(port);
         while (true) {
