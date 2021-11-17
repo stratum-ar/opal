@@ -12,14 +12,9 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
 public class UIServerApp {
-    public static void testDraw(IFramebuffer framebuffer, Surface surf) {
-//        Surface surf = new Surface();
-//        Graphics g = surf.getGraphics();
-//
-//        g.fillRect(40, 40, 80, 50, ColorUtil.pack(1.f, 1.f, 0.f));
-//        g.fillRect(120, 90, 60, 60, ColorUtil.pack(1.f, 0.f, 1.f));
-
-        framebuffer.write(surf);
+    public static void testDraw(IFramebuffer framebuffer) {
+        // Use for testing out changes to the drawing API
+        // Keep empty in main thank you
     }
 
     public static void main(String[] argv) {
@@ -36,8 +31,8 @@ public class UIServerApp {
                     return;
                 }
 
-                System.out.println(43);
-//                testDraw(framebuffer);
+                testDraw(framebuffer);
+
                 start(50666, framebuffer);
             } else {
                 System.out.println("Usage: opal [mode]");
@@ -66,9 +61,8 @@ public class UIServerApp {
 
                 Surface surface = new RequestReader(in).readRequest();
 
-                testDraw(framebuffer, surface);
+                framebuffer.write(surface);
 
-                out.write("dostalem".getBytes(StandardCharsets.UTF_8));
                 clientSocket.close();
             } catch (IOException e) {
                 e.printStackTrace();
