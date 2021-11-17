@@ -2,7 +2,9 @@ package com.stratum.uiserver;
 
 import com.stratum.uiserver.connection.RequestReader;
 import com.stratum.uiserver.framebuffer.*;
+import com.stratum.uiserver.graphics.Graphics;
 import com.stratum.uiserver.graphics.Surface;
+import com.stratum.uiserver.graphics.types.Color;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -12,6 +14,17 @@ public class UIServerApp {
     public static void testDraw(IFramebuffer framebuffer) {
         // Use for testing out changes to the drawing API
         // Keep empty in main thank you
+
+        Surface surf = new Surface();
+        Graphics gfx = new Graphics(surf);
+
+        gfx.fillPolygon(
+                new int[]{30, 200, 120},
+                new int[]{30, 30, 200},
+                Color.CYAN
+        );
+
+        framebuffer.write(surf);
     }
 
     public static void main(String[] argv) {

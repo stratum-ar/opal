@@ -130,4 +130,42 @@ public class Graphics {
         }
     }
 
+    private boolean isLeft(int x, int y, int ax, int ay, int bx, int by) {
+        return (bx - ax) * (y - ay) > (by - ay) * (x - ax);
+    }
+
+    public void fillPolygon(int[] xs, int[] ys, IFill fill) {
+        if (xs.length < 2 || ys.length < 2) {
+            throw new IllegalArgumentException("Polygon must contain at least 2 points.");
+        }
+        if (xs.length != ys.length) {
+            throw new IllegalArgumentException("There must be the same amount of both coordinates.");
+        }
+
+        Rect rect = calcBoundingRect(xs, ys);
+
+        for (int dx = 0; dx < rect.width(); dx++) {
+            for (int dy = 0; dy < rect.height(); dy++) {
+                int x = rect.x() + dx;
+                int y = rect.y() + dy;
+
+                int left = 0;
+                int right = 0;
+
+                for (int i = 0; i < xs.length; i++) {
+                    boolean leftb = isLeft(x, y, xs[i], ys[i], xs[(i + 1) % xs.length], ys[(i + 1) % ys.length]);
+
+                    if (leftb) {
+                        left++;
+                    } else {
+                        right++;
+                    }
+                }
+
+                if (left * right == 0) {
+                    setPixel(x, y, fill.sample(x, y));
+                }
+            }
+        }
+    }
 }
