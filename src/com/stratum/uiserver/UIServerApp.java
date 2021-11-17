@@ -2,14 +2,11 @@ package com.stratum.uiserver;
 
 import com.stratum.uiserver.connection.RequestReader;
 import com.stratum.uiserver.framebuffer.*;
-import com.stratum.uiserver.graphics.ColorUtil;
-import com.stratum.uiserver.graphics.Graphics;
 import com.stratum.uiserver.graphics.Surface;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 
 public class UIServerApp {
     public static void testDraw(IFramebuffer framebuffer) {

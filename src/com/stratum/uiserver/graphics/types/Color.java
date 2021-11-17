@@ -1,7 +1,5 @@
 package com.stratum.uiserver.graphics.types;
 
-import com.stratum.uiserver.graphics.ColorUtil;
-
 public class Color implements IFill {
     private final float red;
     private final float green;
@@ -26,8 +24,8 @@ public class Color implements IFill {
     }
 
     @Override
-    public short sample(int x, int y) {
-        return ColorUtil.pack(red, green, blue);
+    public Color sample(int x, int y) {
+        return this;
     }
 
     public static Color BLACK = new Color(0f, 0f, 0f);

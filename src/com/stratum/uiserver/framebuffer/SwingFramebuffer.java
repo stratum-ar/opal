@@ -34,12 +34,12 @@ public class SwingFramebuffer implements IFramebuffer {
     private class FramebufferPanel extends JPanel {
         private Surface surface = new Surface();
 
-        private Color colorFromPixel(short pixel) {
-            float r = (float) ((pixel >> 3) & 31) / 31.f;
-            float g = (float) (pixel & 7) / 7.f;
-            float b = (float) ((pixel >> 8) & 15) / 15.f;
+        private Color colorFromStratumColor(com.stratum.uiserver.graphics.types.Color color) {
+            if (color == null) {
+                return Color.BLACK;
+            }
 
-            return new Color(r, g, b);
+            return new Color(color.red(), color.green(), color.blue());
         }
 
         public void setSurface(Surface surface) {
@@ -53,11 +53,11 @@ public class SwingFramebuffer implements IFramebuffer {
 
         @Override
         public void paint(Graphics g) {
-            short[][] pixels = surface.getPixels();
+            com.stratum.uiserver.graphics.types.Color[][] pixels = surface.getPixels();
 
             for (int x = 0; x < 240; x++) {
                 for (int y = 0; y < 240; y++) {
-                    g.setColor(colorFromPixel(pixels[x][y]));
+                    g.setColor(colorFromStratumColor(pixels[x][y]));
                     g.fillRect(x * 2, y * 2, 2, 2);
                 }
             }

@@ -13,7 +13,7 @@ public class Graphics {
     private final Surface surf;
 
     private int bezierResolution = 10;
-    private BiFunction<Short, Short, Short> blendingFunction = (bg, fg) -> fg;
+    private BiFunction<Color, Color, Color> blendingFunction = (bg, fg) -> fg;
 
     public Graphics(Surface surface) {
         surf = surface;
@@ -27,15 +27,15 @@ public class Graphics {
         this.bezierResolution = bezierResolution;
     }
 
-    public BiFunction<Short, Short, Short> getBlendingFunction() {
+    public BiFunction<Color, Color, Color> getBlendingFunction() {
         return blendingFunction;
     }
 
-    public void setBlendingFunction(BiFunction<Short, Short, Short> blendingFunction) {
+    public void setBlendingFunction(BiFunction<Color, Color, Color> blendingFunction) {
         this.blendingFunction = blendingFunction;
     }
 
-    private void setPixel(int x, int y, short color) {
+    private void setPixel(int x, int y, Color color) {
         surf.setPixel(x, y, blendingFunction.apply(surf.getPixel(x, y), color));
     }
 
