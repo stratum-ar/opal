@@ -4,6 +4,7 @@ import com.stratum.uiserver.connection.RequestReader;
 import com.stratum.uiserver.framebuffer.*;
 import com.stratum.uiserver.graphics.Graphics;
 import com.stratum.uiserver.graphics.Surface;
+import com.stratum.uiserver.graphics.font.ShaleBitmapFont;
 import com.stratum.uiserver.graphics.types.Color;
 
 import java.io.*;
@@ -18,11 +19,9 @@ public class UIServerApp {
         Surface surf = new Surface();
         Graphics gfx = new Graphics(surf);
 
-        gfx.fillPolygon(
-                new int[]{30, 200, 120},
-                new int[]{30, 30, 200},
-                Color.CYAN
-        );
+        ShaleBitmapFont font = new ShaleBitmapFont();
+        font.drawText(surf, "Hello world!", 10, 10, Color.WHITE);
+        font.drawText(surf, "$tre4m Chr0mAtiCa", 10, 26, Color.BLUE);
 
         framebuffer.write(surf);
     }
