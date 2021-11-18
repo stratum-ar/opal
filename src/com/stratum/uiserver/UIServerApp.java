@@ -20,8 +20,8 @@ public class UIServerApp {
         Graphics gfx = new Graphics(surf);
 
         ShaleBitmapFont font = new ShaleBitmapFont();
-        font.drawText(surf, "Hello world!", 10, 10, Color.WHITE);
-        font.drawText(surf, "$tre4m Chr0mAtiCa", 10, 26, Color.BLUE);
+        String str = "Hello, world!";
+        font.drawText(surf, str, (240 - font.measureString(str)) / 2, (240 - font.getLineHeight()) / 2, Color.WHITE);
 
         framebuffer.write(surf);
     }
