@@ -23,10 +23,6 @@ public class Gradient implements IFill {
     public Color sample(int x, int y) {
         float position = MathUtil.clamp(MathUtil.unlerp((float)(vertical ? y : x), (float)start, (float)end));
 
-        return new Color(
-                MathUtil.lerp(position, startColor.red(), endColor.red()),
-                MathUtil.lerp(position, startColor.green(), endColor.green()),
-                MathUtil.lerp(position, startColor.blue(), endColor.blue())
-        );
+        return Color.lerp(position, startColor, endColor);
     }
 }

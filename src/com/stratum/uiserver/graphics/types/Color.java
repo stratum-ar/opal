@@ -1,5 +1,7 @@
 package com.stratum.uiserver.graphics.types;
 
+import com.stratum.uiserver.graphics.MathUtil;
+
 public class Color implements IFill {
     private final float red;
     private final float green;
@@ -26,6 +28,21 @@ public class Color implements IFill {
     @Override
     public Color sample(int x, int y) {
         return this;
+    }
+
+    public static Color lerp(float x, Color a, Color b) {
+        if (a == null) {
+            a = Color.BLACK;
+        }
+        if (b == null) {
+            b = Color.BLACK;
+        }
+
+        return new Color(
+                MathUtil.lerp(x, a.red(), b.red()),
+                MathUtil.lerp(x, a.green(), b.green()),
+                MathUtil.lerp(x, a.blue(), b.blue())
+        );
     }
 
     public static Color BLACK = new Color(0f, 0f, 0f);
