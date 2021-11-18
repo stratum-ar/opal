@@ -15,15 +15,6 @@ public class UIServerApp {
     public static void testDraw(IFramebuffer framebuffer) {
         // Use for testing out changes to the drawing API
         // Keep empty in main thank you
-
-        Surface surf = new Surface();
-        Graphics gfx = new Graphics(surf);
-
-        ShaleBitmapFont font = new ShaleBitmapFont();
-        String str = "Hello, world!";
-        font.drawText(surf, str, (240 - font.measureString(str)) / 2, (240 - font.getLineHeight()) / 2, Color.WHITE);
-
-        framebuffer.write(surf);
     }
 
     public static void main(String[] argv) {
