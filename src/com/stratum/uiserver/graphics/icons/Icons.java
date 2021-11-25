@@ -1,0 +1,21 @@
+package com.stratum.uiserver.graphics.icons;
+
+public enum Icons {
+    NONE,
+    LEFT, RIGHT, UP, DOWN,
+    X, OK, OK_SMALL,
+    DOTS,
+    HOME, SETTINGS, SEARCH,
+    GRID, LIST,
+    ADD, POWER,
+    NEW, OPEN, SAVE, DELETE,
+    CUT, COPY, PASTE,
+    UNDO, REDO, REFRESH,
+    USER, TIME, BOOKMARK, FILTER,
+    ZOOM_IN, ZOOM_OUT,
+    PLAY, PAUSE, STOP, PREVIOUS, NEXT,
+    LOCK, UNLOCK, SHIELD,
+    REPLY, STAR, HEART,
+    BATTERY_0, BATTERY_25, BATTERY_50, BATTERY_75, BATTERY_100,
+    WIFI_0, WIFI_1, WIFI_2, WIFI_3
+}

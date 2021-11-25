@@ -4,16 +4,24 @@ import com.stratum.uiserver.graphics.Surface;
 import com.stratum.uiserver.graphics.types.Color;
 import com.stratum.uiserver.graphics.types.IFill;
 
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Arrays;
+
 public class BitmapFont implements IFont {
-    private int[] codePoints;
-    private int[] characterWidths;
-    private int[] characterXOffsets;
+    private final int[] codePoints;
+    private final int[] characterWidths;
+    private final int[] characterXOffsets;
 
-    private int bitmapDataWidth;
-    private int lineHeight;
-    private byte[] bitmapData;
+    private final int bitmapDataWidth;
+    private final int lineHeight;
+    private final byte[] bitmapData;
 
-    protected void setFontData(
+    public BitmapFont(
             int[] codePoints, int[] characterWidths, int[] characterXOffsets,
             int bitmapDataWidth, int lineHeight, byte[] bitmapData
     ) {
@@ -92,5 +100,38 @@ public class BitmapFont implements IFont {
             drawCharacter(surface, index, x + xOffset, y, fill);
             xOffset += characterWidths[index];
         }
+    }
+
+    public static BitmapFont load(URL filePath) throws IOException, URISyntaxException {
+        DataInputStream inputStream = new DataInputStream(new FileInputStream(new File(filePath.toURI())));
+
+        int glyphCount = inputStream.readUnsignedByte();
+        int lineHeight = inputStream.readUnsignedByte();
+        int bitmapDataWidth = inputStream.readUnsignedShort();
+
+        int[] codePoints = new int[glyphCount];
+        int[] characterWidths = new int[glyphCount];
+        int[] characterXOffsets = new int[glyphCount];
+
+        byte[] bitmapData = new byte[lineHeight * bitmapDataWidth];
+
+        for (int i = 0; i < glyphCount; i++) {
+            codePoints[i] = inputStream.readUnsignedByte();
+        }
+        for (int i = 0; i < glyphCount; i++) {
+            characterXOffsets[i] = inputStream.readUnsignedShort();
+        }
+        for (int i = 0; i < glyphCount; i++) {
+            characterWidths[i] = inputStream.readUnsignedByte();
+        }
+        for (int i = 0; i < bitmapData.length; i++) {
+            bitmapData[i] = inputStream.readByte();
+        }
+
+        inputStream.close();
+
+        return new BitmapFont(
+                codePoints, characterWidths, characterXOffsets, bitmapDataWidth, lineHeight, bitmapData
+        );
     }
 }
