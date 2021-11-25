@@ -4,6 +4,7 @@ import com.stratum.uiserver.graphics.Surface;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class RequestReader {
 
@@ -41,10 +42,15 @@ public class RequestReader {
     }
 
     public void readCommand() throws IOException {
-        CommandHandler commandHandler = new CommandHandler(surface.getGraphics());
-        int commandNo = in.readUnsignedByte();
+        try {
+            CommandHandler commandHandler = new CommandHandler(surface);
+            int commandNo = in.readUnsignedByte();
 
-        commandHandler.runCommand(commandNo, in);
+            commandHandler.runCommand(commandNo, in);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
