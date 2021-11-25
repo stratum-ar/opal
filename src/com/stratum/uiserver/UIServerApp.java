@@ -12,18 +12,18 @@ import com.stratum.uiserver.graphics.types.Color;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Objects;
 
 public class UIServerApp {
     public static void testDraw(IFramebuffer framebuffer) {
         // Use for testing out changes to the drawing API
-        // Keep empty in main thank you
 
         Surface surf = new Surface();
         Graphics gfx = new Graphics(surf);
 
         try {
-            IconSet iconSet = IconSet.load(UIServerApp.class.getResource("/default_icons.bin"));
-            BitmapFont font = BitmapFont.load(UIServerApp.class.getResource("/default_font.bin"));
+            IconSet iconSet = IconSet.load(Objects.requireNonNull(UIServerApp.class.getResource("/default_icons.bin")));
+            BitmapFont font = BitmapFont.load(Objects.requireNonNull(UIServerApp.class.getResource("/default_font.bin")));
 
             iconSet.drawIcon(surf, Icons.USER, 16, 16, Color.CYAN);
             font.drawText(surf, "@test_thing", 32, 16, Color.CYAN);
