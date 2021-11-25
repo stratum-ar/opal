@@ -4,17 +4,40 @@ import com.stratum.uiserver.connection.RequestReader;
 import com.stratum.uiserver.framebuffer.*;
 import com.stratum.uiserver.graphics.Graphics;
 import com.stratum.uiserver.graphics.Surface;
-import com.stratum.uiserver.graphics.font.ShaleBitmapFont;
+import com.stratum.uiserver.graphics.font.BitmapFont;
+import com.stratum.uiserver.graphics.icons.IconSet;
+import com.stratum.uiserver.graphics.icons.Icons;
 import com.stratum.uiserver.graphics.types.Color;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Objects;
 
 public class UIServerApp {
     public static void testDraw(IFramebuffer framebuffer) {
         // Use for testing out changes to the drawing API
-        // Keep empty in main thank you
+
+        Surface surf = new Surface();
+        Graphics gfx = new Graphics(surf);
+
+        try {
+            IconSet iconSet = IconSet.load(Objects.requireNonNull(UIServerApp.class.getResource("/default_icons.bin")));
+            BitmapFont font = BitmapFont.load(Objects.requireNonNull(UIServerApp.class.getResource("/default_font.bin")));
+
+            iconSet.drawIcon(surf, Icons.USER, 16, 16, Color.CYAN);
+            font.drawText(surf, "@test_thing", 32, 16, Color.CYAN);
+
+            font.drawText(surf, "Test test", 16, 36, Color.WHITE);
+
+            iconSet.drawIcon(surf, Icons.HEART, 16, 64, Color.RED);
+            font.drawText(surf, "150.4k", 32, 64, Color.RED);
+
+            iconSet.drawIcon(surf, Icons.REFRESH, 80, 64, Color.GREEN);
+            font.drawText(surf, "70k", 96, 64, Color.GREEN);
+
+            framebuffer.write(surf);
+        } catch (Exception ignored) {}
     }
 
     public static void main(String[] argv) {
