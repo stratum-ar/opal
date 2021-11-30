@@ -4,9 +4,11 @@ import com.stratum.uiserver.connection.RequestReader;
 import com.stratum.uiserver.framebuffer.*;
 import com.stratum.uiserver.graphics.Graphics;
 import com.stratum.uiserver.graphics.Surface;
+import com.stratum.uiserver.graphics.ui.UIPrimitives;
 import com.stratum.uiserver.graphics.font.BitmapFont;
 import com.stratum.uiserver.graphics.icons.IconSet;
 import com.stratum.uiserver.graphics.icons.Icons;
+import com.stratum.uiserver.graphics.theme.Theme;
 import com.stratum.uiserver.graphics.types.Color;
 
 import java.io.*;
@@ -22,19 +24,32 @@ public class UIServerApp {
         Graphics gfx = new Graphics(surf);
 
         try {
+            Theme theme = Theme.load(Objects.requireNonNull(UIServerApp.class.getResource("/default_theme.bin")));
             IconSet iconSet = IconSet.load(Objects.requireNonNull(UIServerApp.class.getResource("/default_icons.bin")));
             BitmapFont font = BitmapFont.load(Objects.requireNonNull(UIServerApp.class.getResource("/default_font.bin")));
 
-            iconSet.drawIcon(surf, Icons.USER, 16, 16, Color.CYAN);
-            font.drawText(surf, "@test_thing", 32, 16, Color.CYAN);
+            UIPrimitives ui = new UIPrimitives(theme, iconSet, font);
 
-            font.drawText(surf, "Test test", 16, 36, Color.WHITE);
+            ui.drawCheckbox(surf, 16, 16, false);
+            font.drawText(surf, "Checkbox unchecked", 32, 16, Color.WHITE);
+            ui.drawCheckbox(surf, 16, 32, true);
+            font.drawText(surf, "Checkbox checked", 32, 32, Color.WHITE);
 
-            iconSet.drawIcon(surf, Icons.HEART, 16, 64, Color.RED);
-            font.drawText(surf, "150.4k", 32, 64, Color.RED);
+            ui.drawButton(surf, "Button", 16, 48, 60, 20, false, false);
+            ui.drawButton(surf, "Button", 80, 48, 60, 20, true, false);
+            ui.drawButton(surf, "Button", 144, 48, 60, 20, false, true);
 
-            iconSet.drawIcon(surf, Icons.REFRESH, 80, 64, Color.GREEN);
-            font.drawText(surf, "70k", 96, 64, Color.GREEN);
+            ui.drawHorizontalSlider(surf, 0.25, 16, 70, 120, 16);
+            ui.drawHorizontalSlider(surf, 0.5, 16, 86, 120, 16);
+            ui.drawHorizontalSlider(surf, 0.75, 16, 102, 120, 16);
+
+            ui.drawVerticalSlider(surf, 0.25, 136, 70, 16, 100);
+            ui.drawVerticalSlider(surf, 0.5, 152, 70, 16, 100);
+            ui.drawVerticalSlider(surf, 0.75, 168, 70, 16, 100);
+
+            ui.drawComboBox(surf, "ComboBox", 16, 120, 100, 20);
+
+            ui.drawPager(surf, 4, 1, 16, 208, 208, 16, false);
 
             framebuffer.write(surf);
         } catch (Exception ignored) {}
