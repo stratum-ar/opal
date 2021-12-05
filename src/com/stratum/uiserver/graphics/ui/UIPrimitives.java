@@ -15,6 +15,8 @@ public class UIPrimitives {
     private final IconSet iconSet;
     private final IFont font;
 
+    private final IFill disabledFill = new DisabledFill();
+
     public UIPrimitives(Theme theme, IconSet iconSet, IFont font) {
         this.theme = theme;
         this.iconSet = iconSet;
@@ -38,12 +40,12 @@ public class UIPrimitives {
         }
     }
 
-    private Color getButtonTextColor(ButtonState state) {
+    private IFill getButtonTextColor(ButtonState state) {
         switch (state) {
             case PRESSED:
                 return Color.BLACK;
             case DISABLED:
-                return Color.GRAY;
+                return disabledFill;
             default:
                 return Color.WHITE;
         }
@@ -82,7 +84,7 @@ public class UIPrimitives {
     }
 
     public void drawButton(Surface surface, String text, Icons icon, int x, int y, int width, int height, ButtonState state) {
-        Color textColor = getButtonTextColor(state);
+        IFill textColor = getButtonTextColor(state);
 
         drawButtonFrame(surface, x, y, width, height, state);
 
@@ -100,7 +102,7 @@ public class UIPrimitives {
     }
 
     public void drawComboBox(Surface surface, String text, int x, int y, int width, int height, ButtonState state) {
-        Color textColor = getButtonTextColor(state);
+        IFill textColor = getButtonTextColor(state);
 
         drawButtonFrame(surface, x, y, width, height, state);
 
@@ -189,7 +191,7 @@ public class UIPrimitives {
         }
     }
 
-    private Color getEditBoxTextColor(EditBoxState state) {
+    private IFill getEditBoxTextColor(EditBoxState state) {
         switch (state) {
             case ERROR:
                 return Color.RED;
@@ -201,7 +203,7 @@ public class UIPrimitives {
     }
 
     public void drawEditBox(Surface surface, String text, int x, int y, int width, int height, EditBoxState state) {
-        Color textColor = getEditBoxTextColor(state);
+        IFill textColor = getEditBoxTextColor(state);
 
         drawEditBoxFrame(surface, x, y, width, height, state);
 

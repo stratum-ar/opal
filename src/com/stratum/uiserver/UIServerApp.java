@@ -2,7 +2,6 @@ package com.stratum.uiserver;
 
 import com.stratum.uiserver.connection.RequestReader;
 import com.stratum.uiserver.framebuffer.*;
-import com.stratum.uiserver.graphics.Graphics;
 import com.stratum.uiserver.graphics.Surface;
 import com.stratum.uiserver.graphics.ui.ButtonState;
 import com.stratum.uiserver.graphics.ui.EditBoxState;
@@ -23,7 +22,6 @@ public class UIServerApp {
         // Use for testing out changes to the drawing API
 
         Surface surf = new Surface();
-        Graphics gfx = new Graphics(surf);
 
         try {
             Theme theme = Theme.load(Objects.requireNonNull(UIServerApp.class.getResource("/default_theme.bin")));
@@ -108,7 +106,6 @@ public class UIServerApp {
                 Socket clientSocket = serverSocket.accept();
 
                 DataInputStream in = new DataInputStream(clientSocket.getInputStream());
-                DataOutputStream out = new DataOutputStream((clientSocket.getOutputStream()));
 
                 Surface surface = new RequestReader(in).readRequest();
 
