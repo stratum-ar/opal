@@ -46,6 +46,7 @@ public class Color implements IFill {
     }
 
     public static Color BLACK = new Color(0f, 0f, 0f);
+    public static Color GRAY = new Color(0.5f, 0.5f, 0.5f);
     public static Color WHITE = new Color(1f, 1f, 1f);
     public static Color RED = new Color(1f, 0f, 0f);
     public static Color YELLOW = new Color(1f, 1f, 0f);

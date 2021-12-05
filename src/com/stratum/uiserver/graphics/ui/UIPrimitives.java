@@ -21,6 +21,34 @@ public class UIPrimitives {
         this.font = font;
     }
 
+    private void drawButtonFrame(Surface surface, int x, int y, int width, int height, ButtonState state) {
+        switch (state) {
+            case DEFAULT:
+                theme.drawElement(surface, ThemeItem.BUTTON, x, y, width, height);
+                break;
+            case DISABLED:
+                theme.drawElement(surface, ThemeItem.BUTTON_DISABLED, x, y, width, height);
+                break;
+            case HIGHLIGHTED:
+                theme.drawElement(surface, ThemeItem.BUTTON_HIGHLIGHTED, x, y, width, height);
+                break;
+            case PRESSED:
+                theme.drawElement(surface, ThemeItem.BUTTON_PRESSED, x, y, width, height);
+                break;
+        }
+    }
+
+    private Color getButtonTextColor(ButtonState state) {
+        switch (state) {
+            case PRESSED:
+                return Color.BLACK;
+            case DISABLED:
+                return Color.GRAY;
+            default:
+                return Color.WHITE;
+        }
+    }
+
     public void drawAlignedText(Surface surface, String text, int x, int y, int width, int height, IFill fill, Alignment alignment) {
         int textWidth = font.measureString(text);
 
@@ -53,36 +81,31 @@ public class UIPrimitives {
         }
     }
 
-    public void drawButton(Surface surface, String text, Icons icon, int x, int y, int width, int height, boolean pressed, boolean highlighted) {
-        ThemeItem themeItem = ThemeItem.BUTTON;
-        if (highlighted) {
-            themeItem = ThemeItem.BUTTON_HIGHLIGHTED;
-        }
-        if (pressed) {
-            themeItem = ThemeItem.BUTTON_PRESSED;
-        }
+    public void drawButton(Surface surface, String text, Icons icon, int x, int y, int width, int height, ButtonState state) {
+        Color textColor = getButtonTextColor(state);
 
-        theme.drawElement(surface, themeItem, x, y, width, height);
+        drawButtonFrame(surface, x, y, width, height, state);
 
         if (icon == null) {
-            drawAlignedText(surface, text, x, y, width, height, pressed ? Color.BLACK : Color.WHITE, Alignment.MIDDLE);
+            drawAlignedText(surface, text, x, y, width, height, textColor, Alignment.MIDDLE);
         } else {
             int iconX = (width - font.measureString(text) - 18) / 2;
             if (text.length() == 0) {
                 iconX += 1;
             }
 
-            iconSet.drawIcon(surface, icon, x + iconX, y + (height - 16) / 2, pressed ? Color.BLACK : Color.WHITE);
-            drawAlignedText(surface, text, x + 9, y, width, height, pressed ? Color.BLACK : Color.WHITE, Alignment.MIDDLE);
+            iconSet.drawIcon(surface, icon, x + iconX, y + (height - 16) / 2, textColor);
+            drawAlignedText(surface, text, x + 9, y, width, height, textColor, Alignment.MIDDLE);
         }
     }
 
-    public void drawComboBox(Surface surface, String text, int x, int y, int width, int height) {
-        ThemeItem themeItem = ThemeItem.BUTTON;
+    public void drawComboBox(Surface surface, String text, int x, int y, int width, int height, ButtonState state) {
+        Color textColor = getButtonTextColor(state);
 
-        theme.drawElement(surface, themeItem, x, y, width, height);
-        drawAlignedText(surface, text, x + 6, y, width - 22, height, Color.WHITE, Alignment.LEFT);
-        iconSet.drawIcon(surface, Icons.COMBOBOX_UPDOWN, x + width - 16, y + (height - 16) / 2, Color.WHITE);
+        drawButtonFrame(surface, x, y, width, height, state);
+
+        drawAlignedText(surface, text, x + 6, y, width - 22, height, textColor, Alignment.LEFT);
+        iconSet.drawIcon(surface, Icons.COMBOBOX_UPDOWN, x + width - 16, y + (height - 16) / 2, textColor);
     }
 
     public void drawHorizontalSlider(Surface surface, double fillPercentage, int x, int y, int width, int height) {

@@ -4,6 +4,7 @@ import com.stratum.uiserver.connection.RequestReader;
 import com.stratum.uiserver.framebuffer.*;
 import com.stratum.uiserver.graphics.Graphics;
 import com.stratum.uiserver.graphics.Surface;
+import com.stratum.uiserver.graphics.ui.ButtonState;
 import com.stratum.uiserver.graphics.ui.UIPrimitives;
 import com.stratum.uiserver.graphics.font.BitmapFont;
 import com.stratum.uiserver.graphics.icons.IconSet;
@@ -35,9 +36,9 @@ public class UIServerApp {
             ui.drawCheckbox(surf, 16, 32, true);
             font.drawText(surf, "Checked", 32, 32, Color.WHITE);
 
-            ui.drawButton(surf, "Button", null, 16, 48, 60, 20, false, false);
-            ui.drawButton(surf, "Button", null, 80, 48, 60, 20, true, false);
-            ui.drawButton(surf, "Button", null, 144, 48, 60, 20, false, true);
+            ui.drawButton(surf, "Button", null, 16, 48, 60, 20, ButtonState.DEFAULT);
+            ui.drawButton(surf, "Button", null, 80, 48, 60, 20, ButtonState.PRESSED);
+            ui.drawButton(surf, "Button", null, 144, 48, 60, 20, ButtonState.HIGHLIGHTED);
 
             ui.drawHorizontalSlider(surf, 0.25, 16, 70, 120, 16);
             ui.drawHorizontalSlider(surf, 0.5, 16, 86, 120, 16);
@@ -47,10 +48,10 @@ public class UIServerApp {
             ui.drawVerticalSlider(surf, 0.5, 152, 70, 16, 60);
             ui.drawVerticalSlider(surf, 0.75, 168, 70, 16, 60);
 
-            ui.drawComboBox(surf, "ComboBox", 16, 120, 100, 20);
-            ui.drawButton(surf, "Battery", Icons.BATTERY_100, 16, 144, 80, 20, false, false);
-            ui.drawButton(surf, "Locked", Icons.LOCK, 100, 144, 80, 20, true, false);
-            ui.drawButton(surf, "", Icons.SAVE, 184, 144, 30, 20, false, true);
+            ui.drawComboBox(surf, "ComboBox", 16, 120, 100, 20, ButtonState.DEFAULT);
+            ui.drawButton(surf, "Battery", Icons.BATTERY_100, 16, 144, 80, 20, ButtonState.DEFAULT);
+            ui.drawButton(surf, "Locked", Icons.LOCK, 100, 144, 80, 20, ButtonState.PRESSED);
+            ui.drawButton(surf, "", Icons.SAVE, 184, 144, 30, 20, ButtonState.DISABLED);
 
             ui.drawProgress(surf, 0.33, 16, 196, 208, 8);
             ui.drawPager(surf, 4, 1, 16, 208, 208, 16, false);
