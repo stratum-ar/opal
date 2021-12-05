@@ -77,7 +77,7 @@ public class BitmapFont implements IFont {
                             Color.lerp(
                                     (float)v / 127f,
                                     surface.getPixel(x, y),
-                                    fill.sample(x, y)
+                                    fill.sample(x + dx, y + dy)
                             )
                     );
                 }
