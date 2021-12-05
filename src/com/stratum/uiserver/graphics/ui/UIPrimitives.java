@@ -53,7 +53,7 @@ public class UIPrimitives {
         }
     }
 
-    public void drawButton(Surface surface, String text, int x, int y, int width, int height, boolean pressed, boolean highlighted) {
+    public void drawButton(Surface surface, String text, Icons icon, int x, int y, int width, int height, boolean pressed, boolean highlighted) {
         ThemeItem themeItem = ThemeItem.BUTTON;
         if (highlighted) {
             themeItem = ThemeItem.BUTTON_HIGHLIGHTED;
@@ -63,7 +63,18 @@ public class UIPrimitives {
         }
 
         theme.drawElement(surface, themeItem, x, y, width, height);
-        drawAlignedText(surface, text, x, y, width, height, pressed ? Color.BLACK : Color.WHITE, Alignment.MIDDLE);
+
+        if (icon == null) {
+            drawAlignedText(surface, text, x, y, width, height, pressed ? Color.BLACK : Color.WHITE, Alignment.MIDDLE);
+        } else {
+            int iconX = (width - font.measureString(text) - 18) / 2;
+            if (text.length() == 0) {
+                iconX += 1;
+            }
+
+            iconSet.drawIcon(surface, icon, x + iconX, y + (height - 16) / 2, pressed ? Color.BLACK : Color.WHITE);
+            drawAlignedText(surface, text, x + 9, y, width, height, pressed ? Color.BLACK : Color.WHITE, Alignment.MIDDLE);
+        }
     }
 
     public void drawComboBox(Surface surface, String text, int x, int y, int width, int height) {
@@ -128,6 +139,16 @@ public class UIPrimitives {
             } else {
                 dx += 16;
             }
+        }
+    }
+
+    public void drawProgress(Surface surface, double progress, int x, int y, int width, int height) {
+        int progressWidth = (int)(progress * width);
+
+        theme.drawElement(surface, ThemeItem.BUTTON, x, y, width, height);
+
+        if (progressWidth >= 6) {
+            theme.drawElement(surface, ThemeItem.PROGRESS_FILL, x, y, progressWidth, height);
         }
     }
 }

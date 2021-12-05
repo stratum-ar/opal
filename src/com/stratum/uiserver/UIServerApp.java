@@ -31,24 +31,28 @@ public class UIServerApp {
             UIPrimitives ui = new UIPrimitives(theme, iconSet, font);
 
             ui.drawCheckbox(surf, 16, 16, false);
-            font.drawText(surf, "Checkbox unchecked", 32, 16, Color.WHITE);
+            font.drawText(surf, "Unchecked", 32, 16, Color.WHITE);
             ui.drawCheckbox(surf, 16, 32, true);
-            font.drawText(surf, "Checkbox checked", 32, 32, Color.WHITE);
+            font.drawText(surf, "Checked", 32, 32, Color.WHITE);
 
-            ui.drawButton(surf, "Button", 16, 48, 60, 20, false, false);
-            ui.drawButton(surf, "Button", 80, 48, 60, 20, true, false);
-            ui.drawButton(surf, "Button", 144, 48, 60, 20, false, true);
+            ui.drawButton(surf, "Button", null, 16, 48, 60, 20, false, false);
+            ui.drawButton(surf, "Button", null, 80, 48, 60, 20, true, false);
+            ui.drawButton(surf, "Button", null, 144, 48, 60, 20, false, true);
 
             ui.drawHorizontalSlider(surf, 0.25, 16, 70, 120, 16);
             ui.drawHorizontalSlider(surf, 0.5, 16, 86, 120, 16);
             ui.drawHorizontalSlider(surf, 0.75, 16, 102, 120, 16);
 
-            ui.drawVerticalSlider(surf, 0.25, 136, 70, 16, 100);
-            ui.drawVerticalSlider(surf, 0.5, 152, 70, 16, 100);
-            ui.drawVerticalSlider(surf, 0.75, 168, 70, 16, 100);
+            ui.drawVerticalSlider(surf, 0.25, 136, 70, 16, 60);
+            ui.drawVerticalSlider(surf, 0.5, 152, 70, 16, 60);
+            ui.drawVerticalSlider(surf, 0.75, 168, 70, 16, 60);
 
             ui.drawComboBox(surf, "ComboBox", 16, 120, 100, 20);
+            ui.drawButton(surf, "Battery", Icons.BATTERY_100, 16, 144, 80, 20, false, false);
+            ui.drawButton(surf, "Locked", Icons.LOCK, 100, 144, 80, 20, true, false);
+            ui.drawButton(surf, "", Icons.SAVE, 184, 144, 30, 20, false, true);
 
+            ui.drawProgress(surf, 0.33, 16, 196, 208, 8);
             ui.drawPager(surf, 4, 1, 16, 208, 208, 16, false);
 
             framebuffer.write(surf);
