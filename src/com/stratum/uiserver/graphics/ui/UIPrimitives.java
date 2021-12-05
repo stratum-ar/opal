@@ -174,4 +174,37 @@ public class UIPrimitives {
             theme.drawElement(surface, ThemeItem.PROGRESS_FILL, x, y, progressWidth, height);
         }
     }
+
+    private void drawEditBoxFrame(Surface surface, int x, int y, int width, int height, EditBoxState state) {
+        switch (state) {
+            case DEFAULT:
+                theme.drawElement(surface, ThemeItem.EDITBOX, x, y, width, height);
+                break;
+            case ERROR:
+                theme.drawElement(surface, ThemeItem.EDITBOX_ERROR, x, y, width, height);
+                break;
+            case OK:
+                theme.drawElement(surface, ThemeItem.EDITBOX_OK, x, y, width, height);
+                break;
+        }
+    }
+
+    private Color getEditBoxTextColor(EditBoxState state) {
+        switch (state) {
+            case ERROR:
+                return Color.RED;
+            case OK:
+                return Color.GREEN;
+            default:
+                return Color.WHITE;
+        }
+    }
+
+    public void drawEditBox(Surface surface, String text, int x, int y, int width, int height, EditBoxState state) {
+        Color textColor = getEditBoxTextColor(state);
+
+        drawEditBoxFrame(surface, x, y, width, height, state);
+
+        drawAlignedText(surface, text, x + 6, y, width - 12, height, textColor, Alignment.LEFT);
+    }
 }
