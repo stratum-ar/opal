@@ -1,5 +1,6 @@
 package com.stratum.uiserver.graphics.ui;
 
+import com.stratum.uiserver.graphics.Graphics;
 import com.stratum.uiserver.graphics.MathUtil;
 import com.stratum.uiserver.graphics.Surface;
 import com.stratum.uiserver.graphics.font.IFont;
@@ -16,6 +17,7 @@ public class UIPrimitives {
     private final IFont font;
 
     private final IFill disabledFill = new DisabledFill();
+    private final IFill selectedFill = new SelectedFill();
 
     public UIPrimitives(Theme theme, IconSet iconSet, IFont font) {
         this.theme = theme;
@@ -202,10 +204,23 @@ public class UIPrimitives {
         }
     }
 
-    public void drawEditBox(Surface surface, String text, int x, int y, int width, int height, EditBoxState state) {
+    public void drawEditBox(Surface surface, String text, int x, int y, int width, int height, EditBoxState state, TextSelection selection) {
         IFill textColor = getEditBoxTextColor(state);
 
         drawEditBoxFrame(surface, x, y, width, height, state);
+
+        if (selection != null) {
+            int start = selection.getStartPosition(text.length());
+            int end = start + selection.getLength();
+
+            int xOffset = font.measureString(text.substring(0, start)) + 6;
+            int selectionWidth = font.measureString(text.substring(start, end));
+
+            Graphics gfx = new Graphics(surface);
+
+            gfx.fillRect(x + xOffset, y + 2, selectionWidth, height - 4, selectedFill);
+            gfx.fillRect(x + xOffset + selectionWidth, y + 2, 1, height - 4, Color.GRAY);
+        }
 
         drawAlignedText(surface, text, x + 6, y, width - 12, height, textColor, Alignment.LEFT);
     }

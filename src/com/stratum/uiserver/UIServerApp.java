@@ -5,6 +5,7 @@ import com.stratum.uiserver.framebuffer.*;
 import com.stratum.uiserver.graphics.Surface;
 import com.stratum.uiserver.graphics.ui.ButtonState;
 import com.stratum.uiserver.graphics.ui.EditBoxState;
+import com.stratum.uiserver.graphics.ui.TextSelection;
 import com.stratum.uiserver.graphics.ui.UIPrimitives;
 import com.stratum.uiserver.graphics.font.BitmapFont;
 import com.stratum.uiserver.graphics.icons.IconSet;
@@ -54,9 +55,18 @@ public class UIServerApp {
             ui.drawButton(surf, "Locked", Icons.LOCK, 100, 124, 80, 20, ButtonState.PRESSED);
             ui.drawButton(surf, "", Icons.SAVE, 184, 124, 30, 20, ButtonState.DISABLED);
 
-            ui.drawEditBox(surf, "Hello!", 16, 148, 60, 20, EditBoxState.DEFAULT);
-            ui.drawEditBox(surf, "OK!", 80, 148, 60, 20, EditBoxState.OK);
-            ui.drawEditBox(surf, "Err!", 144, 148, 60, 20, EditBoxState.ERROR);
+            ui.drawEditBox(surf, "Hello!", 16, 148, 60, 20, EditBoxState.DEFAULT, null);
+            ui.drawEditBox(surf, "OK!", 80, 148, 60, 20, EditBoxState.OK, null);
+            ui.drawEditBox(surf, "Err!", 144, 148, 60, 20, EditBoxState.ERROR, null);
+
+            ui.drawEditBox(
+                    surf, "Selection", 16, 170, 100, 20, EditBoxState.DEFAULT,
+                    new TextSelection(-1, 0)
+            );
+            ui.drawEditBox(
+                    surf, "Selection", 120, 170, 100, 20, EditBoxState.DEFAULT,
+                    new TextSelection(2, 5)
+            );
 
             ui.drawProgress(surf, 0.33, 16, 196, 208, 8);
             ui.drawPager(surf, 4, 1, 16, 208, 208, 16, false);
