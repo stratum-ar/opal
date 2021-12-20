@@ -5,7 +5,6 @@ import com.stratum.uiserver.annotation.RequestMethod;
 import com.stratum.uiserver.graphics.Graphics;
 import com.stratum.uiserver.graphics.Surface;
 import com.stratum.uiserver.graphics.font.BitmapFont;
-import com.stratum.uiserver.graphics.font.IFont;
 import com.stratum.uiserver.graphics.icons.IconSet;
 import com.stratum.uiserver.graphics.icons.Icons;
 import com.stratum.uiserver.graphics.types.Color;
@@ -17,7 +16,6 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class CommandHandler {
