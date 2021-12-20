@@ -27,8 +27,8 @@ public class CommandHandler {
     public CommandHandler(Surface surface) throws IOException, URISyntaxException {
         this.surface = surface;
         this.graphics = surface.getGraphics();
-        this.iconSet = IconSet.load(Objects.requireNonNull(UIServerApp.class.getResource("/default_icons.bin")));
-        this.font = BitmapFont.load(Objects.requireNonNull(UIServerApp.class.getResource("/default_font.bin")));
+        this.iconSet = IconSet.load(UIServerApp.class.getResourceAsStream("/default_icons.bin"));
+        this.font = BitmapFont.load(UIServerApp.class.getResourceAsStream("/default_font.bin"));
     }
 
     public void runCommand(int commandNo, DataInputStream in) {

@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="uiserver:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/uiserver_jar</output-path>
-    <root id="archive" name="uiserver.jar">
-      <element id="module-output" name="uiserver" />
-    </root>
-  </artifact>
-</component>

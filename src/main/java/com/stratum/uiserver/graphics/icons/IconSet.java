@@ -3,12 +3,10 @@ package com.stratum.uiserver.graphics.icons;
 import com.stratum.uiserver.graphics.Surface;
 import com.stratum.uiserver.graphics.types.Color;
 import com.stratum.uiserver.graphics.types.IFill;
+import org.apache.commons.io.IOUtils;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
+import java.io.InputStream;
 
 public class IconSet {
     private final byte[] iconData;
@@ -41,9 +39,7 @@ public class IconSet {
         }
     }
 
-    public static IconSet load(URL filePath) throws IOException, URISyntaxException {
-        File file = new File(filePath.toURI());
-
-        return new IconSet(Files.readAllBytes(file.toPath()));
+    public static IconSet load(InputStream inputStream) throws IOException {
+        return new IconSet(IOUtils.toByteArray(inputStream));
     }
 }

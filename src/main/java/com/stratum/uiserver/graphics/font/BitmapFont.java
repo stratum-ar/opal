@@ -4,10 +4,7 @@ import com.stratum.uiserver.graphics.Surface;
 import com.stratum.uiserver.graphics.types.Color;
 import com.stratum.uiserver.graphics.types.IFill;
 
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -101,8 +98,8 @@ public class BitmapFont implements IFont {
         }
     }
 
-    public static BitmapFont load(URL filePath) throws IOException, URISyntaxException {
-        DataInputStream inputStream = new DataInputStream(new FileInputStream(new File(filePath.toURI())));
+    public static BitmapFont load(InputStream stream) throws IOException {
+        DataInputStream inputStream = new DataInputStream(stream);
 
         int glyphCount = inputStream.readUnsignedByte();
         int lineHeight = inputStream.readUnsignedByte();

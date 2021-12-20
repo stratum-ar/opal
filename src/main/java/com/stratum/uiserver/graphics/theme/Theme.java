@@ -2,13 +2,12 @@ package com.stratum.uiserver.graphics.theme;
 
 import com.stratum.uiserver.graphics.MathUtil;
 import com.stratum.uiserver.graphics.Surface;
+import com.stratum.uiserver.graphics.icons.IconSet;
 import com.stratum.uiserver.graphics.types.Color;
+import org.apache.commons.io.IOUtils;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
+import java.io.InputStream;
 
 public class Theme {
     private final byte[] themeData;
@@ -41,9 +40,7 @@ public class Theme {
         }
     }
 
-    public static Theme load(URL filePath) throws IOException, URISyntaxException {
-        File file = new File(filePath.toURI());
-
-        return new Theme(Files.readAllBytes(file.toPath()));
+    public static Theme load(InputStream inputStream) throws IOException {
+        return new Theme(IOUtils.toByteArray(inputStream));
     }
 }

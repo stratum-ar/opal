@@ -25,9 +25,9 @@ public class UIServerApp {
         Surface surf = new Surface();
 
         try {
-            Theme theme = Theme.load(Objects.requireNonNull(UIServerApp.class.getResource("/default_theme.bin")));
-            IconSet iconSet = IconSet.load(Objects.requireNonNull(UIServerApp.class.getResource("/default_icons.bin")));
-            BitmapFont font = BitmapFont.load(Objects.requireNonNull(UIServerApp.class.getResource("/default_font.bin")));
+            Theme theme = Theme.load(UIServerApp.class.getResourceAsStream("/default_theme.bin"));
+            IconSet iconSet = IconSet.load(UIServerApp.class.getResourceAsStream("/default_icons.bin"));
+            BitmapFont font = BitmapFont.load(UIServerApp.class.getResourceAsStream("/default_font.bin"));
 
             UIPrimitives ui = new UIPrimitives(theme, iconSet, font);
 
