@@ -77,13 +77,17 @@ public class UIServerApp {
 
     public static void main(String[] argv) {
         try {
-            if (argv.length == 1) {
+            if (argv.length >= 1) {
                 IFramebuffer framebuffer;
 
                 if (argv[0].equals("fb1")) {
                     framebuffer = new RPiFramebuffer();
                 } else if (argv[0].equals("swing")) {
                     framebuffer = new SwingFramebuffer();
+
+                    if (argv.length >= 2) {
+                        ((SwingFramebuffer)framebuffer).setApiServerHostname(argv[1]);
+                    }
                 } else {
                     System.out.println("Invalid mode.");
                     return;
@@ -93,7 +97,7 @@ public class UIServerApp {
 
                 start(50666, framebuffer);
             } else {
-                System.out.println("Usage: opal [mode]");
+                System.out.println("Usage: opal [mode] [api server address (swing only)]");
                 System.out.println("Modes:");
                 System.out.println("\tswing - display framebuffer in a window");
                 System.out.println("\tfb1 - send framebuffer to /dev/fb1 (RPi only)");

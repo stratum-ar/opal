@@ -4,16 +4,27 @@ import com.stratum.uiserver.graphics.Surface;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 
 public class SwingFramebuffer implements IFramebuffer {
     private final JFrame frame;
     private final FramebufferPanel panel;
+
+    private String apiServerHostname;
 
     public SwingFramebuffer() {
         frame = new JFrame("OpalServer");
         panel = new FramebufferPanel();
 
         prepareFrame();
+    }
+
+    public void setApiServerHostname(String apiServerHostname) {
+        this.apiServerHostname = apiServerHostname;
     }
 
     private void prepareFrame() {
@@ -31,8 +42,42 @@ public class SwingFramebuffer implements IFramebuffer {
         panel.repaint();
     }
 
+    public void sendInput(int x, int y, boolean isDragged) {
+        if (apiServerHostname == null) {
+            return;
+        }
+
+        try {
+            Socket socket = new Socket(apiServerHostname, 50665);
+
+            DataOutputStream stream = new DataOutputStream(socket.getOutputStream());
+            stream.writeByte(1); // Input
+            stream.writeByte(x);
+            stream.writeByte(y);
+            stream.writeByte(isDragged ? 1 : 0);
+            stream.flush();
+
+            socket.close();
+            stream.close();
+        } catch (IOException ignored) {}
+    }
+
     private class FramebufferPanel extends JPanel {
         private Surface surface = new Surface();
+
+        public FramebufferPanel() {
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    sendInput(e.getX() / 2, e.getY() / 2, false);
+                }
+
+                @Override
+                public void mouseDragged(MouseEvent e) {
+                    sendInput(e.getX() / 2, e.getY() / 2, true);
+                }
+            });
+        }
 
         private Color colorFromStratumColor(com.stratum.uiserver.graphics.types.Color color) {
             if (color == null) {
