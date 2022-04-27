@@ -209,8 +209,6 @@ public class CommandHandler {
     public void drawCheckBox(DataInputStream in) throws IOException {
         int x = in.readUnsignedByte();
         int y = in.readUnsignedByte();
-        int width = in.readUnsignedByte();
-        int height = in.readUnsignedByte();
         boolean isChecked = in.readUnsignedByte() == 1;
 
         uiPrimitives.drawCheckbox(surface, x, y, isChecked);
